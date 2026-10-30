@@ -202,3 +202,6 @@ body.dark-mode .secondary{border-color:#40354d}
 .story-views{font-size:9px;color:#8b8398;font-style:normal;margin-top:1px}
 .post-tile-wrap{min-width:0;position:relative;overflow:hidden;background:#f5effa}.post-social-actions{display:flex;align-items:center;justify-content:space-around;gap:4px;padding:5px 2px;background:#fff;border-bottom:1px solid #f0e8f6}.post-social-actions button{border:0;background:transparent;color:#6e4acb;font-size:12px;font-weight:750;padding:3px 6px;border-radius:8px}.post-social-actions button:active{transform:scale(.95)}.post-social-actions span{color:#6d6677;font-size:11px}.post-tile-wrap .post-photo{aspect-ratio:1;object-fit:cover;width:100%;height:auto}.social-admin-card{margin:12px 0 16px}.social-admin-card .upload-row{margin:14px 0}.social-admin-card .status-line{margin-top:12px}
 @media(max-width:600px){.brand{font-size:17px;gap:8px}.walking-girl{font-size:16px;animation-duration:6.5s}.post-social-actions button{font-size:11px;padding:4px 2px}.story-views{font-size:8px}}
+
+/* Social interaction refinements */
+.post-social-actions{justify-content:flex-start;padding:7px 10px}.post-social-actions .post-like{font-size:17px;min-width:42px;text-align:left}.post-social-actions .post-like.is-liked{color:#e11d48}.post-social-actions .post-like:disabled{opacity:1;cursor:default}.story-price-box{margin:16px 0}

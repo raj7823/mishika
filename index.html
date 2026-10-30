@@ -33,9 +33,9 @@
         <button class="button secondary" id="followBtn">Follow</button>
       </div>
       <div class="story-row">
-        <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>5 Private Photo’s</small><em class="story-views" id="storyViews1">0 views</em></button>
-        <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-post-2.jpeg" alt=""><span class="story-lock">🔒</span><small>10 Night Photo’s</small><em class="story-views" id="storyViews2">0 views</em></button>
-        <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-post-3.jpeg" alt=""><span class="story-lock">🔒</span><small>3 Hot Videos</small><em class="story-views" id="storyViews3">0 views</em></button>
+        <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>5 Private Photo’s</small><em class="story-views" id="storyViews1">Unlock · ₹299</em></button>
+        <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-post-2.jpeg" alt=""><span class="story-lock">🔒</span><small>10 Night Photo’s</small><em class="story-views" id="storyViews2">Unlock · ₹599</em></button>
+        <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-post-3.jpeg" alt=""><span class="story-lock">🔒</span><small>3 Hot Videos</small><em class="story-views" id="storyViews3">Unlock · ₹899</em></button>
       </div>
       <div class="grid-label"><span>▦</span> POSTS <span class="post-live-dot" aria-label="Live"></span></div>
       <div class="post-grid" id="postGrid">
@@ -128,9 +128,11 @@
       <button class="close-modal" id="closePaidStory" aria-label="Close">×</button>
       <div class="premium-icon">🔒</div>
       <p class="eyebrow">MISHIKA FAMILY</p>
-      <h2>Paid users only</h2>
-      <p class="muted">This profile content is available to paid members.</p>
-      <button class="button primary full" id="paidStoryUpgrade">Upgrade to unlock</button>
+      <h2 id="paidStoryTitle">Unlock private content</h2>
+      <p class="muted" id="paidStoryDescription">Choose the content pack you want to access.</p>
+      <div class="price-box story-price-box"><span id="paidStoryPackName">Private Photo Pack</span><strong id="paidStoryPrice">₹299</strong><small>One-time access price</small></div>
+      <button class="button primary full" id="paidStoryUpgrade">Request access · ₹299</button>
+      <p class="small-note" id="paidStoryPaymentNote">Payment verification is required. Payment gateway setup may be needed.</p>
     </div>
   </section>
   <div class="toast hidden" id="toast"></div>
