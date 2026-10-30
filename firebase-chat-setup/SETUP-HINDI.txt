@@ -31,3 +31,13 @@ PAYMENT REQUEST PANEL FIX / TROUBLESHOOTING
 - Payment request submit karte waqt website ab error code dikhayegi agar Firestore ne request save karne se mana kiya. Admin panel bhi permission-denied jaise exact error dikhayega.
 - Request Firestore > Data > paymentRequests me save ho rahi hai par panel me nahi aa rahi, to admin account/email aur published rules check karein. Admin query ab client-side sorting karti hai, isliye createdAt/orderBy ke karan docs chhootne ki sambhavna kam hai.
 - Payment QR/UTR ko automatic payment verification na samjhein. Bank/UPI app me payment receive verify karke hi Approve karein.
+
+
+MOBILE CHAT + IMAGE/VOICE MESSAGE + DARK MODE (NEW)
+1. Firebase Console > Build > Storage me jaakar Firebase Storage enable karein (agar pehle se enabled nahi hai).
+2. Storage > Rules me project ke firebase-chat-setup/storage.rules file ka poora code paste karke Publish karein. Isse user apni media upload kar sakta hai aur admin (sonusharmax301@gmail.com) media read kar sakta hai.
+3. Website HTTPS par kholna zaroori hai; microphone ke liye browser permission Allow karein.
+4. Chat composer me + se image select karke bhejein. Mic button ek baar dabakar recording shuru aur dobara dabakar stop/send karein.
+5. Chat header ke ☾ / ☀ button se dark/light mode change hota hai; preference isi browser me save hoti hai.
+6. Mobile par chat full-screen, composer safe-area aware, aur upgrade/payment modal scrollable hai.
+NOTE: Voice recording support browser/device par depend karta hai. Storage Rules publish kiye bina image/audio upload kaam nahi karega.

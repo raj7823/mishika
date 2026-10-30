@@ -52,7 +52,7 @@
       <header class="chat-header">
         <button class="icon-button" id="backBtn" aria-label="Back">‹</button>
         <img class="chat-avatar-img" src="assets/mishika-profile.jpeg" alt="Mishika"><div class="chat-title"><strong>Mishika</strong><span>@Mishika__a</span></div>
-        <button class="icon-button" id="chatMenuBtn" aria-label="Info">⋯</button>
+        <button class="icon-button" id="themeToggle" aria-label="Toggle dark mode" title="Dark mode">☾</button><button class="icon-button" id="chatMenuBtn" aria-label="Info">⋯</button>
       </header>
       <div class="chat-body" id="chatBody">
         <div class="profile-mini">
@@ -63,9 +63,13 @@
         <div id="messages"></div>
       </div>
       <div class="chat-composer" id="composer">
+        <button type="button" class="media-button" id="imageBtn" aria-label="Send image" title="Send image">＋</button>
+        <input id="imageInput" type="file" accept="image/*" hidden>
         <input id="messageInput" type="text" maxlength="1000" placeholder="Message..." autocomplete="off">
+        <button type="button" class="media-button" id="recordBtn" aria-label="Record voice message" title="Record voice message">🎙</button>
         <button id="sendBtn" class="send-button">Send</button>
       </div>
+      <p id="recordingStatus" class="recording-status hidden" role="status">Recording… tap 🎙 again to send</p>
       <div class="chat-locked hidden" id="lockedNotice">
         <span class="lock-icon">🔒</span>
         <strong>Continue chatting</strong>
