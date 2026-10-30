@@ -16,3 +16,10 @@ IMPORTANT LIMITATIONS:
 - Message limit/unlock in this starter is only a front-end convenience and not secure payment enforcement. For real paid chat, use server-side enforcement and verified payment webhook.
 - Firebase web apiKey is public app config; never upload service-account JSON/private key.
 - If inbox doesn't show, check admin UID document and Firestore Rules. Don't open database publicly.
+
+
+PUBLIC PROFILE ONLINE STATUS + CHAT HISTORY
+- Website profile par Online now/Offline status dikhane ke liye updated firestore.rules ko Firebase Console > Firestore Database > Rules me publish karein.
+- Admin panel visible hone par har 30 seconds heartbeat update hota hai. Website 90 seconds se purane heartbeat ko Offline dikhati hai. Browser/tab band hone par Offline update best-effort hai; network band hone par status maximum lagbhag 90 seconds tak purana reh sakta hai.
+- User chat history Firestore me conversations/{uid}/messages ke andar save hoti hai. Updated code Firebase Auth ki browser-local persistence enable karta hai, isliye same Chrome profile/site data clear na karne par purani conversation wapas load honi chahiye. Incognito, browser data clear, ya alag browser/device par alag guest identity ho sakti hai.
+- Agar pehle ke messages Firestore me save nahi hue the (sirf purane demo/localStorage me the), to woh automatically cloud history me nahi aa sakte.

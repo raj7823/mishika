@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#ffffff">
   <title>Mishika Family — Mishika</title>
   <link rel="stylesheet" href="style.css">
+<style> .profile-status-line{display:flex;align-items:center;gap:6px}.public-status-dot{width:8px;height:8px;border-radius:50%;background:#9ca3af;display:inline-block}.profile-status-line #publicOnlineStatus.is-online{color:#16a34a;font-weight:700}.profile-status-line #publicOnlineStatus.is-online~.public-status-dot{background:#22c55e}.profile-status-line #publicOnlineStatus.is-offline{color:#6b7280}.profile-status-line:has(#publicOnlineStatus.is-online) .public-status-dot{background:#22c55e}</style>
 </head>
 <body>
   <main class="app-shell">
@@ -24,7 +25,7 @@
       </div>
       <div class="profile-bio">
         <h1 id="profileName">Mishika</h1>
-        <p class="muted">@Mishika__a</p>
+        <p class="muted profile-status-line"><span class="public-status-dot" id="publicStatusDot"></span><span id="publicOnlineStatus" class="is-offline">Offline</span> · @Mishika__a</p>
         <p>Daily conversations ✨<br>Welcome to my profile.</p>
       </div>
       <div class="profile-actions">

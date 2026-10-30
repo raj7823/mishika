@@ -11,6 +11,14 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Public profile can read online status; only the authorized admin can update it.
+    match /presence/{presenceId} {
+      allow read: if signedIn() && presenceId == 'admin';
+      allow create, update: if isAdmin() && presenceId == 'admin'
+        && request.resource.data.status in ['online', 'offline'];
+      allow delete: if false;
+    }
+
     match /conversations/{uid} {
       allow create: if signedIn() && request.auth.uid == uid
         && request.resource.data.uid == uid
