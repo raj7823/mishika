@@ -11,7 +11,7 @@
 <body>
   <main class="app-shell">
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">M</span><span>Mishika Family</span></div>
+      <div class="brand brand-animated"><span class="brand-mark">M</span><span class="brand-title">Mishika Family</span><span class="walking-girl" aria-hidden="true">👧🏻</span></div>
     </header>
 
     <section class="profile-card">
@@ -20,24 +20,24 @@
         <div class="profile-stats">
           <div><strong id="postCount">3</strong><span>posts</span></div>
           <div><strong>8.4K</strong><span>followers</span></div>
-          <div><strong>310</strong><span>following</span></div>
+          <div><strong id="followingCount">310</strong><span>following</span></div>
         </div>
       </div>
       <div class="profile-bio">
         <h1 id="profileName">Mishika</h1>
-        <p class="muted profile-status-line"><span class="public-status-dot" id="publicStatusDot"></span><span id="publicOnlineStatus" class="is-offline">Offline</span> · @Mishika__a</p>
-        <p>Daily conversations ✨<br>Welcome to my profile.</p>
+        <p class="muted profile-status-line"><span id="publicOnlineStatus" class="is-online">Online</span><span class="public-status-dot" id="publicStatusDot"></span> · @Mishika__a</p>
+        <p>Little moments, lovely memories 💗<br>Stay close, stay happy ✨</p>
       </div>
       <div class="profile-actions">
         <button class="button primary" id="messageBtn">Message</button>
         <button class="button secondary" id="followBtn">Follow</button>
       </div>
       <div class="story-row">
-        <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>Open only paid users</small></button>
-        <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>Open only paid users</small></button>
-        <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>Open only paid users</small></button>
+        <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>5 Private Photo’s</small><em class="story-views" id="storyViews1">0 views</em></button>
+        <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-post-2.jpeg" alt=""><span class="story-lock">🔒</span><small>10 Night Photo’s</small><em class="story-views" id="storyViews2">0 views</em></button>
+        <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-post-3.jpeg" alt=""><span class="story-lock">🔒</span><small>3 Hot Videos</small><em class="story-views" id="storyViews3">0 views</em></button>
       </div>
-      <div class="grid-label"><span>▦</span> POSTS</div>
+      <div class="grid-label"><span>▦</span> POSTS <span class="post-live-dot" aria-label="Live"></span></div>
       <div class="post-grid" id="postGrid">
         <img class="post-photo" src="assets/mishika-profile.jpeg" alt="Mishika post 1">
         <img class="post-photo" src="assets/mishika-post-2.jpeg" alt="Mishika post 2">
@@ -110,7 +110,7 @@
         <img class="viewer-avatar" src="assets/mishika-profile.jpeg" alt="Mishika">
         <div><h2>Mishika</h2><p>@Mishika__a</p></div>
       </div>
-      <p class="viewer-bio">Daily conversations ✨<br>Welcome to Mishika Family.</p>
+      <p class="viewer-bio">Little moments, lovely memories 💗<br>Stay close, stay happy ✨</p>
       <div class="viewer-stats"><span><strong id="viewerPostCount">3</strong> posts</span><span><strong>8.4K</strong> followers</span><span><strong>310</strong> following</span></div>
       <button class="button primary full" id="viewerMessageBtn">Message</button>
     </div>

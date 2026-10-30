@@ -190,3 +190,15 @@ body.dark-mode .secondary{border-color:#40354d}
  body.dark-mode .app-shell{border:0}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Requested profile interactions and playful header animation */
+.brand-animated{position:relative;overflow:visible;padding-bottom:7px}
+.brand-title{position:relative;z-index:1;white-space:nowrap}
+.walking-girl{position:absolute;z-index:2;left:34px;top:25px;font-size:18px;line-height:1;filter:drop-shadow(0 2px 2px #0002);pointer-events:none;animation:girlWalkAcross 6s ease-in-out infinite}
+@keyframes girlWalkAcross{0%{left:34px;top:25px;transform:translateY(0) rotate(-7deg)}12%{top:10px;transform:translateY(-5px) rotate(5deg)}25%{top:25px;transform:translateY(0) rotate(-5deg)}50%{left:130px;top:24px;transform:translateY(0) rotate(5deg)}75%{left:215px;top:24px;transform:translateY(0) rotate(-4deg)}88%{left:215px;top:10px;transform:translateY(-5px) rotate(5deg)}100%{left:34px;top:25px;transform:translateY(0) rotate(-7deg)}}
+.profile-status-line #publicOnlineStatus{color:#16a34a;font-weight:800}.public-status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:#22c55e;animation:onlineBlink 1.2s ease-in-out infinite;box-shadow:0 0 0 0 #22c55e55}
+@keyframes onlineBlink{0%,100%{opacity:1;box-shadow:0 0 0 0 #22c55e55}50%{opacity:.45;box-shadow:0 0 0 5px #22c55e00}}
+.post-live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;animation:onlineBlink 1.2s infinite;margin-left:2px}
+.story-views{font-size:9px;color:#8b8398;font-style:normal;margin-top:1px}
+.post-tile-wrap{min-width:0;position:relative;overflow:hidden;background:#f5effa}.post-social-actions{display:flex;align-items:center;justify-content:space-around;gap:4px;padding:5px 2px;background:#fff;border-bottom:1px solid #f0e8f6}.post-social-actions button{border:0;background:transparent;color:#6e4acb;font-size:12px;font-weight:750;padding:3px 6px;border-radius:8px}.post-social-actions button:active{transform:scale(.95)}.post-social-actions span{color:#6d6677;font-size:11px}.post-tile-wrap .post-photo{aspect-ratio:1;object-fit:cover;width:100%;height:auto}.social-admin-card{margin:12px 0 16px}.social-admin-card .upload-row{margin:14px 0}.social-admin-card .status-line{margin-top:12px}
+@media(max-width:600px){.brand{font-size:17px;gap:8px}.walking-girl{font-size:16px;animation-duration:6.5s}.post-social-actions button{font-size:11px;padding:4px 2px}.story-views{font-size:8px}}
