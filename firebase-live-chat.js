@@ -1,7 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
 import { getAuth, signInAnonymously, onAuthStateChanged, setPersistence, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js';
 import { firebaseConfig } from './firebase-config.js';
 
 const app = initializeApp(firebaseConfig);
@@ -22,10 +22,60 @@ function renderLockOnly(){const locked=!isUnlimited && userMessageCount>=message
 window.sendCloudMessage=async function(){const input=$('messageInput'),text=(input?.value||'').trim();if(!text||!uid)return;try{if(!isUnlimited && userMessageCount>=messageLimit){renderLockOnly();return;}
  await addDoc(collection(db,'conversations',uid,'messages'),{text,sender:'user',createdAt:serverTimestamp()});await setDoc(doc(db,'conversations',uid),{lastText:text,updatedAt:serverTimestamp()},{merge:true});input.value='';}catch(err){console.error(err);toastCloud('Message send nahi hua. Firestore Rules check karein.');}};
 
-async function uploadAndSendMedia(file, mediaType){if(!file||!uid)return;if(!isUnlimited&&userMessageCount>=messageLimit){renderLockOnly();return;}const max=mediaType==='image'?8*1024*1024:12*1024*1024;if(file.size>max){toastCloud(mediaType==='image'?'Image 8 MB se chhoti honi chahiye.':'Voice message 12 MB se chhota hona chahiye.');return;}const allowed=mediaType==='image'?file.type.startsWith('image/'):file.type.startsWith('audio/');if(!allowed){toastCloud('Is file type ko send nahi kar sakte.');return;}toastCloud(mediaType==='image'?'Image upload ho rahi hai…':'Voice message upload ho raha hai…');try{const safeName=(file.name||('voice-'+Date.now())).replace(/[^a-zA-Z0-9._-]/g,'_');const path=`chat-media/${uid}/${Date.now()}-${safeName}`;const storageRef=ref(storage,path);await uploadBytes(storageRef,file,{contentType:file.type});const mediaUrl=await getDownloadURL(storageRef);const text=mediaType==='image'?'[Image]':'[Voice message]';await addDoc(collection(db,'conversations',uid,'messages'),{text,mediaType,mediaUrl,mediaPath:path,sender:'user',createdAt:serverTimestamp()});await setDoc(doc(db,'conversations',uid),{lastText:text,updatedAt:serverTimestamp()},{merge:true});toastCloud(mediaType==='image'?'Image sent.':'Voice message sent.');}catch(err){console.error(err);toastCloud('Media send nahi hua ('+(err.code||'error')+'). Firebase Storage enable aur Rules publish karein.');}}
+function compressImageIfPossible(file){
+  return new Promise(resolve=>{
+    if(!file.type.startsWith('image/') || file.size<700*1024 || !('createImageBitmap' in window)){resolve(file);return;}
+    createImageBitmap(file).then(bitmap=>{
+      const maxSide=1600,scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));
+      const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+      const ctx=canvas.getContext('2d');ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close?.();
+      canvas.toBlob(blob=>{if(blob&&blob.size<file.size)resolve(new File([blob],(file.name||'photo').replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()}));else resolve(file);},'image/jpeg',0.78);
+    }).catch(()=>resolve(file));
+  });
+}
+function uploadWithProgress(storageRef,file,onProgress){
+  return new Promise((resolve,reject)=>{
+    const task=uploadBytesResumable(storageRef,file,{contentType:file.type||'application/octet-stream'});
+    task.on('state_changed',snap=>onProgress?.(snap.totalBytes?Math.round(snap.bytesTransferred/snap.totalBytes*100):0),reject,()=>resolve(task.snapshot));
+  });
+}
+async function uploadAndSendMedia(file, mediaType){
+  if(!file||!uid)return;
+  if(!isUnlimited&&userMessageCount>=messageLimit){renderLockOnly();return;}
+  if(mediaType==='image')file=await compressImageIfPossible(file);
+  const max=mediaType==='image'?12*1024*1024:12*1024*1024;
+  if(file.size>max){toastCloud(mediaType==='image'?'Photo 12 MB se chhoti honi chahiye.':'Voice message 12 MB se chhota hona chahiye.');return;}
+  const allowed=mediaType==='image'?file.type.startsWith('image/'):file.type.startsWith('audio/');
+  if(!allowed){toastCloud('Yeh file format supported nahi hai. JPG/PNG photo ya voice message try karein.');return;}
+  const label=mediaType==='image'?'Photo':'Voice';
+  const toast=$('toast');let progressTimer;
+  const showProgress=p=>{if(toast){toast.textContent=`${label} send ho rahi hai… ${p}%`;toast.classList.remove('hidden');}};
+  showProgress(0);
+  try{
+    const ext=mediaType==='image'?(file.type==='image/jpeg'?'jpg':(file.type.split('/')[1]||'img').replace('jpeg','jpg')):(file.type.includes('mp4')?'m4a':file.type.includes('ogg')?'ogg':'webm');
+    const path=`chat-media/${uid}/${Date.now()}-${mediaType}.${ext}`;
+    const storageRef=ref(storage,path);
+    await uploadWithProgress(storageRef,file,showProgress);
+    const mediaUrl=await getDownloadURL(storageRef);
+    const text=mediaType==='image'?'[Image]':'[Voice message]';
+    await addDoc(collection(db,'conversations',uid,'messages'),{text,mediaType,mediaUrl,mediaPath:path,sender:'user',createdAt:serverTimestamp()});
+    await setDoc(doc(db,'conversations',uid),{lastText:text,updatedAt:serverTimestamp()},{merge:true});
+    toastCloud(mediaType==='image'?'Photo sent ✓':'Voice message sent ✓');
+  }catch(err){
+    console.error('Media upload/send failed:',err);
+    let msg='Send nahi hua.';
+    if(err.code==='storage/unauthorized')msg='Permission error: Firebase Storage Rules publish karein.';
+    else if(err.code==='storage/bucket-not-found')msg='Firebase Storage abhi enable nahi hai.';
+    else if(err.code==='storage/unauthenticated')msg='Login error: page refresh karke dobara try karein.';
+    else if(err.code==='permission-denied')msg='Firestore Rules mein messages create permission check karein.';
+    else if(err.code==='storage/canceled')msg='Upload cancel ho gaya.';
+    else msg+=` (${err.code||err.message||'network error'})`;
+    toastCloud(msg);
+  }
+}
 $('imageBtn')?.addEventListener('click',()=>$('imageInput')?.click());$('imageInput')?.addEventListener('change',async e=>{const f=e.target.files?.[0];if(f)await uploadAndSendMedia(f,'image');e.target.value='';});
 let mediaRecorder=null,recordedChunks=[],recordingStream=null;
-$('recordBtn')?.addEventListener('click',async()=>{const btn=$('recordBtn');if(mediaRecorder&&mediaRecorder.state==='recording'){mediaRecorder.stop();btn.classList.remove('is-recording');return;}if(!navigator.mediaDevices?.getUserMedia||typeof MediaRecorder==='undefined'){toastCloud('Is browser mein voice recording supported nahi hai.');return;}try{recordingStream=await navigator.mediaDevices.getUserMedia({audio:true});recordedChunks=[];const mime=['audio/webm;codecs=opus','audio/webm','audio/mp4'].find(t=>MediaRecorder.isTypeSupported(t));mediaRecorder=new MediaRecorder(recordingStream,mime?{mimeType:mime}:undefined);mediaRecorder.ondataavailable=e=>{if(e.data?.size)recordedChunks.push(e.data);};mediaRecorder.onstop=async()=>{recordingStream?.getTracks().forEach(t=>t.stop());$('recordingStatus')?.classList.add('hidden');const type=mediaRecorder?.mimeType||'audio/webm';const ext=type.includes('mp4')?'m4a':'webm';const blob=new Blob(recordedChunks,{type});if(blob.size)await uploadAndSendMedia(new File([blob],`voice-${Date.now()}.${ext}`,{type}), 'audio');};mediaRecorder.start();btn.classList.add('is-recording');$('recordingStatus')?.classList.remove('hidden');toastCloud('Recording shuru. Khatam karne ke liye mic button dobara dabayein.');}catch(err){console.error(err);toastCloud('Microphone permission allow karein. Website HTTPS par honi chahiye.');}});
+$('recordBtn')?.addEventListener('click',async()=>{const btn=$('recordBtn');if(mediaRecorder&&mediaRecorder.state==='recording'){mediaRecorder.stop();btn.classList.remove('is-recording');return;}if(!navigator.mediaDevices?.getUserMedia||typeof MediaRecorder==='undefined'){toastCloud('Is browser mein voice recording supported nahi hai.');return;}try{recordingStream=await navigator.mediaDevices.getUserMedia({audio:true});recordedChunks=[];const mime=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'].find(t=>MediaRecorder.isTypeSupported(t));mediaRecorder=new MediaRecorder(recordingStream,mime?{mimeType:mime}:undefined);mediaRecorder.ondataavailable=e=>{if(e.data?.size)recordedChunks.push(e.data);};mediaRecorder.onstop=async()=>{recordingStream?.getTracks().forEach(t=>t.stop());$('recordingStatus')?.classList.add('hidden');const type=mediaRecorder?.mimeType||'audio/webm';const ext=type.includes('mp4')?'m4a':type.includes('ogg')?'ogg':'webm';const blob=new Blob(recordedChunks,{type});if(blob.size)await uploadAndSendMedia(new File([blob],`voice-${Date.now()}.${ext}`,{type}), 'audio');};mediaRecorder.start();btn.classList.add('is-recording');$('recordingStatus')?.classList.remove('hidden');toastCloud('Voice recording chal rahi hai. Send karne ke liye mic dobara dabayein.');}catch(err){console.error(err);toastCloud('Microphone permission allow karein. Website HTTPS par honi chahiye.');}});
 const themeKey='mishika_dark_mode';function setTheme(dark){document.body.classList.toggle('dark-mode',dark);const b=$('themeToggle');if(b){b.textContent=dark?'☀':'☾';b.title=dark?'Light mode':'Dark mode';b.setAttribute('aria-label',b.title);}localStorage.setItem(themeKey,dark?'1':'0');}setTheme(localStorage.getItem(themeKey)==='1');$('themeToggle')?.addEventListener('click',()=>setTheme(!document.body.classList.contains('dark-mode')));
 // Manual UPI payment requests: ₹199 adds 150 messages; ₹499 unlocks unlimited chat after admin verification.
 function selectPlan(plan){selectedPlan=plan;const amount=plan==='unlimited'?499:199;const label=plan==='unlimited'?'Unlimited Chat':'150 More Messages';const amountEl=$('selectedPlanAmount');if(amountEl)amountEl.textContent=`Selected: ${label} · ₹${amount}`;const qrLabel=$('qrPaymentLabel');if(qrLabel)qrLabel.textContent=`Scan the UPI QR and pay ₹${amount}`;const qrArea=$('qrArea');qrArea?.classList.remove('hidden');}
