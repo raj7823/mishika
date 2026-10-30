@@ -205,3 +205,4 @@ body.dark-mode .secondary{border-color:#40354d}
 
 /* Social interaction refinements */
 .post-social-actions{justify-content:flex-start;padding:7px 10px}.post-social-actions .post-like{font-size:17px;min-width:42px;text-align:left}.post-social-actions .post-like.is-liked{color:#e11d48}.post-social-actions .post-like:disabled{opacity:1;cursor:default}.story-price-box{margin:16px 0}
+.paid-pack-payment{margin-top:14px}.paid-pack-payment input{box-sizing:border-box;width:100%;padding:12px 14px;margin:8px 0 12px;border:1px solid #d8d1e8;border-radius:12px;font:inherit;letter-spacing:.12em}.pack-qr-box{min-height:130px;display:grid;place-items:center;text-align:center;padding:16px;border:1px dashed #c9bddf;border-radius:14px;background:#faf8ff;color:#65577a;font-size:13px}.pack-qr-box img{max-width:220px;width:100%;height:auto;object-fit:contain}.paid-story .story-views{font-style:normal;font-size:9px;display:block;margin-top:4px;color:#8b7ca3}

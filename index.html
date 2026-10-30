@@ -33,9 +33,9 @@
         <button class="button secondary" id="followBtn">Follow</button>
       </div>
       <div class="story-row">
-        <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>5 Private Photo’s</small><em class="story-views" id="storyViews1">Unlock · ₹299</em></button>
-        <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-post-2.jpeg" alt=""><span class="story-lock">🔒</span><small>10 Night Photo’s</small><em class="story-views" id="storyViews2">Unlock · ₹599</em></button>
-        <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-post-3.jpeg" alt=""><span class="story-lock">🔒</span><small>3 Hot Videos</small><em class="story-views" id="storyViews3">Unlock · ₹899</em></button>
+        <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>5 Private Photo’s</small><em class="story-views" id="storyViews1">Tap to view</em></button>
+        <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-post-2.jpeg" alt=""><span class="story-lock">🔒</span><small>10 Night Photo’s</small><em class="story-views" id="storyViews2">Tap to view</em></button>
+        <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-post-3.jpeg" alt=""><span class="story-lock">🔒</span><small>3 Hot Videos</small><em class="story-views" id="storyViews3">Tap to view</em></button>
       </div>
       <div class="grid-label"><span>▦</span> POSTS <span class="post-live-dot" aria-label="Live"></span></div>
       <div class="post-grid" id="postGrid">
@@ -132,11 +132,20 @@
       <p class="muted" id="paidStoryDescription">Choose the content pack you want to access.</p>
       <div class="price-box story-price-box"><span id="paidStoryPackName">Private Photo Pack</span><strong id="paidStoryPrice">₹299</strong><small>One-time access price</small></div>
       <button class="button primary full" id="paidStoryUpgrade">Request access · ₹299</button>
-      <p class="small-note" id="paidStoryPaymentNote">Payment verification is required. Payment gateway setup may be needed.</p>
+      <div class="paid-pack-payment hidden" id="paidPackPayment">
+        <div class="pack-qr-box" id="packQrBox">Admin payment QR will appear here once <code>assets/payment-qr.png</code> is added.</div>
+        <p class="small-note">QR se exact amount pay karein. Payment karne ke baad apna 12-digit UPI transaction/reference ID yahan bhejein.</p>
+        <label class="small-note" for="packUtr">12-digit transaction ID</label>
+        <input id="packUtr" type="text" inputmode="numeric" autocomplete="off" maxlength="12" pattern="[0-9]{12}" placeholder="Enter 12-digit ID">
+        <button class="button primary full" id="submitPackPayment" type="button">Send payment request</button>
+        <p class="status-line hidden" id="packPaymentStatus" role="status"></p>
+      </div>
+      <p class="small-note" id="paidStoryPaymentNote">Access opens only after the admin verifies your payment.</p>
     </div>
   </section>
   <div class="toast hidden" id="toast"></div>
   <script src="app.js"></script>
   <script type="module" src="firebase-live-chat.js"></script>
+  <script type="module" src="paid-packs.js"></script>
 </body>
 </html>

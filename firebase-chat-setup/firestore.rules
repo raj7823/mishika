@@ -54,19 +54,28 @@ service cloud.firestore {
         && request.resource.data.userName is string
         && request.resource.data.userName.size() > 0
         && request.resource.data.userName.size() <= 60
-        && request.resource.data.amount in [199, 499]
-        && request.resource.data.utr is string
-        && request.resource.data.utr.size() >= 6
-        && request.resource.data.utr.size() <= 80
         && request.resource.data.status == 'pending'
-        && request.resource.data.plan in ['messages150', 'unlimited']
+        && request.resource.data.utr is string
+        && request.resource.data.utr.matches('^[0-9]{12}$')
         && ((request.resource.data.plan == 'messages150' && request.resource.data.amount == 199 && request.resource.data.messagesToAdd == 150 && request.resource.data.unlimited == false)
-          || (request.resource.data.plan == 'unlimited' && request.resource.data.amount == 499 && request.resource.data.messagesToAdd == 0 && request.resource.data.unlimited == true));
+          || (request.resource.data.plan == 'unlimited' && request.resource.data.amount == 499 && request.resource.data.messagesToAdd == 0 && request.resource.data.unlimited == true)
+          || (request.resource.data.plan == 'storyPack1' && request.resource.data.packId == '1' && request.resource.data.amount == 299 && request.resource.data.packName == '5 Private Photo’s')
+          || (request.resource.data.plan == 'storyPack2' && request.resource.data.packId == '2' && request.resource.data.amount == 599 && request.resource.data.packName == '10 Night Photo’s')
+          || (request.resource.data.plan == 'storyPack3' && request.resource.data.packId == '3' && request.resource.data.amount == 899 && request.resource.data.packName == '3 Hot Videos'));
       allow get, list: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
       allow update: if isAdmin()
         && resource.data.status == 'pending'
         && request.resource.data.uid == resource.data.uid
         && request.resource.data.status in ['approved', 'rejected'];
+      allow delete: if isAdmin();
+    }
+
+    match /packAccess/{accessId} {
+      allow get, list: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create, update: if isAdmin()
+        && request.resource.data.uid is string
+        && request.resource.data.packId in ['1', '2', '3']
+        && request.resource.data.status == 'approved';
       allow delete: if isAdmin();
     }
   }
