@@ -1,0 +1,18 @@
+MISHIKA FAMILY — FIREBASE REAL-TIME CHAT SETUP (Hindi)
+
+Aapki website ke index.html aur admin.html ko Firebase real-time chat ke liye update kiya gaya hai. Firebase config firebase-config.js mein hai.
+
+1) Firebase Console > Authentication > Sign-in method: Email/Password aur Anonymous enabled hone chahiye.
+2) Firestore Database > Rules: firebase-chat-setup/firestore.rules ka poora content paste karke Publish karein. Rules ko kabhi allow read, write: if true na karein.
+3) Admin account: Authentication > Users > Add user se apna email/password banayein. User ka UID copy karein.
+4) Firestore > Data: Start collection > collection ID `admins`; document ID mein bilkul admin UID paste karein. Document mein `role` string `admin` add kar sakte hain. Document ko browser se create nahi karna; console mein hi banayein.
+5) Hosting: saare files/folders upload karein, folder ke andar ki files ko aise rakhein ki index.html, admin.html, firebase-config.js, firebase-live-chat.js, firebase-admin-inbox.js, app.js, style.css aur assets same root par hon. HTTPS domain use karein.
+6) Admin URL: https://YOUR-DOMAIN/admin.html
+7) Test: mobile par public site khol kar Message dabayein, naam enter karein, message send karein. Admin URL par login karke inbox se user select karein aur reply karein.
+
+IMPORTANT LIMITATIONS:
+- Anonymous auth user identity browser/device par based hai; clearing browser data or changing device can create a new chat identity.
+- The ₹199/₹499 QR/payment UI is still demo only; QR is not scannable and the payment unlock is not securely integrated. Do not accept payments based on this demo.
+- Message limit/unlock in this starter is only a front-end convenience and not secure payment enforcement. For real paid chat, use server-side enforcement and verified payment webhook.
+- Firebase web apiKey is public app config; never upload service-account JSON/private key.
+- If inbox doesn't show, check admin UID document and Firestore Rules. Don't open database publicly.
