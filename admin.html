@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7fb">
+  <title>Mishika Family — Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+  <main class="admin-shell">
+    <header class="topbar admin-topbar">
+      <a class="brand" href="index.html"><span class="brand-mark">M</span><span>Mishika Family Admin</span></a>
+      
+    </header>
+    <section class="admin-intro">
+      <p class="eyebrow">CONTROL CENTER</p>
+      <h1>Chat & payment requests</h1>
+      <p class="muted">This demo panel only shares data in the same browser/device. It is not a production admin panel.</p>
+    </section>
+    <div class="admin-stats">
+      <div class="stat-card"><span>Total messages</span><strong id="adminMsgCount">0</strong></div>
+      <div class="stat-card"><span>Free messages used</span><strong id="adminLimitCount">0 / 30</strong></div>
+      <div class="stat-card"><span>Payment request</span><strong id="adminPaymentState">None</strong></div>
+    </div>
+    <section class="admin-card">
+      <div class="section-heading"><div><h2>Conversation preview</h2><p class="muted">Messages sent from the profile demo</p></div><button class="button secondary" id="refreshBtn">Refresh</button></div>
+      <div id="adminMessages" class="admin-messages"><p class="empty-state">No messages yet. Open index.html and send a message.</p></div>
+    </section>
+    <section class="admin-card">
+      <div class="section-heading"><div><h2>Payment approval</h2><p class="muted">Verify the payment in your UPI app before approving.</p></div></div>
+      <div class="request-box">
+        <div><strong id="requestUser">No pending request</strong><p class="muted" id="requestDetails">When a user clicks “I’ve made the payment”, the request appears here.</p></div>
+        <span class="status-badge" id="requestBadge">NO REQUEST</span>
+      </div>
+      <div class="admin-actions">
+        <button class="button primary" id="approveBtn">Approve & unlock</button>
+        <button class="button danger" id="rejectBtn">Reject request</button>
+        <button class="button secondary" id="resetBtn">Reset demo</button>
+      </div>
+      <p class="warning-note">⚠️ Demo only: approval is stored in this browser’s localStorage. For real users, use a secure backend and server-side authorization. Never trust a browser-only unlock flag.</p>
+    </section>
+    <section class="admin-card">
+      <div class="section-heading"><div><h2>Profile posts</h2><p class="muted">Upload more photos; the profile post count updates automatically.</p></div></div>
+      <div class="upload-row">
+        <label class="button primary upload-label" for="postUpload">＋ Upload photos</label>
+        <input id="postUpload" type="file" accept="image/*" multiple hidden>
+        <button class="button secondary" id="restorePostsBtn">Restore original 3</button>
+      </div>
+      <p class="small-note">Uploaded photos are saved in this browser only. The production website will need cloud storage to share them with all visitors.</p>
+      <div class="admin-photo-grid" id="adminPhotoGrid"></div>
+    </section>
+    <section class="admin-card">
+      <h2>Quick replies (preview)</h2>
+      <div class="quick-replies">
+        <button class="quick-reply" data-reply="Hi! Thanks for messaging.">Hi! Thanks for messaging.</button>
+        <button class="quick-reply" data-reply="I’ll reply as soon as I can.">I’ll reply as soon as I can.</button>
+        <button class="quick-reply" data-reply="Please share a little more detail.">Please share a little more detail.</button>
+      </div>
+      <p class="small-note">Quick replies are UI examples in this starter version.</p>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>

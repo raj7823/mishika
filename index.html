@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>Mishika Family — Mishika</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">M</span><span>Mishika Family</span></div>
+    </header>
+
+    <section class="profile-card">
+      <div class="profile-top">
+        <div class="avatar-ring"><button class="profile-photo-button" id="profilePhotoButton" type="button" aria-label="Open profile photo"><img class="profile-photo" src="assets/mishika-profile.jpeg" alt="Mishika profile photo"></button></div>
+        <div class="profile-stats">
+          <div><strong id="postCount">3</strong><span>posts</span></div>
+          <div><strong>8.4K</strong><span>followers</span></div>
+          <div><strong>310</strong><span>following</span></div>
+        </div>
+      </div>
+      <div class="profile-bio">
+        <h1 id="profileName">Mishika</h1>
+        <p class="muted">@Mishika__a</p>
+        <p>Daily conversations ✨<br>Welcome to my profile.</p>
+      </div>
+      <div class="profile-actions">
+        <button class="button primary" id="messageBtn">Message</button>
+        <button class="button secondary" id="followBtn">Follow</button>
+      </div>
+      <div class="story-row">
+        <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>Open only paid users</small></button>
+        <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>Open only paid users</small></button>
+        <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>Open only paid users</small></button>
+      </div>
+      <div class="grid-label"><span>▦</span> POSTS</div>
+      <div class="post-grid" id="postGrid">
+        <img class="post-photo" src="assets/mishika-profile.jpeg" alt="Mishika post 1">
+        <img class="post-photo" src="assets/mishika-post-2.jpeg" alt="Mishika post 2">
+        <img class="post-photo" src="assets/mishika-post-3.jpeg" alt="Mishika post 3">
+      </div>
+      
+    </section>
+  </main>
+
+  <section class="chat-overlay hidden" id="chatOverlay" aria-label="Chat">
+    <div class="chat-window">
+      <header class="chat-header">
+        <button class="icon-button" id="backBtn" aria-label="Back">‹</button>
+        <img class="chat-avatar-img" src="assets/mishika-profile.jpeg" alt="Mishika"><div class="chat-title"><strong>Mishika</strong><span>@Mishika__a</span></div>
+        <button class="icon-button" id="chatMenuBtn" aria-label="Info">⋯</button>
+      </header>
+      <div class="chat-body" id="chatBody">
+        <div class="profile-mini">
+          <img class="avatar-img small-avatar-img" src="assets/mishika-profile.jpeg" alt="Mishika"><strong>Mishika</strong><span>@Mishika__a · Mishika Family</span>
+          <span class="muted">This is the beginning of your conversation.</span>
+        </div>
+        <div class="date-divider"><span>MESSAGES</span></div>
+        <div id="messages"></div>
+      </div>
+      <div class="chat-composer" id="composer">
+        <input id="messageInput" type="text" maxlength="1000" placeholder="Message..." autocomplete="off">
+        <button id="sendBtn" class="send-button">Send</button>
+      </div>
+      <div class="chat-locked hidden" id="lockedNotice">
+        <span class="lock-icon">🔒</span>
+        <strong>Continue chatting</strong>
+        <p>Unlock more messages to continue this conversation.</p>
+        <button class="button primary full" id="upgradeBtn">Upgrade</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal-backdrop hidden" id="upgradeModal">
+    <div class="upgrade-modal">
+      <button class="close-modal" id="closeUpgrade" aria-label="Close">×</button>
+      <div class="premium-icon">✦</div>
+      <p class="eyebrow">CHATSPACE PREMIUM</p>
+      <h2>Keep the conversation going</h2>
+      <p class="muted">Choose an upgrade to continue chatting.</p>
+      <div class="price-box"><span>One-time unlock</span><strong>₹49</strong><small>Price can be updated before launch</small></div>
+      <button class="button primary full" id="showQrBtn">Show Payment QR</button>
+      <div class="qr-area hidden" id="qrArea">
+        <div class="qr-placeholder" id="qrPlaceholder" aria-label="Demo QR placeholder"></div>
+        <strong>QR preview — not scannable</strong>
+        <p class="small-note">This is a random placeholder only. Replace it with your real UPI QR before accepting payments.</p>
+        <button class="button secondary full" id="paidBtn">I’ve made the payment</button>
+        <p class="status-line hidden" id="paymentStatus">Payment request sent. Waiting for admin approval.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal-backdrop hidden" id="profileViewer">
+    <div class="viewer-modal profile-viewer">
+      <button class="close-modal" id="closeProfileViewer" aria-label="Close">×</button>
+      <div class="viewer-cover"><img src="assets/mishika-profile.jpeg" alt="Mishika profile"></div>
+      <div class="viewer-profile-row">
+        <img class="viewer-avatar" src="assets/mishika-profile.jpeg" alt="Mishika">
+        <div><h2>Mishika</h2><p>@Mishika__a</p></div>
+      </div>
+      <p class="viewer-bio">Daily conversations ✨<br>Welcome to Mishika Family.</p>
+      <div class="viewer-stats"><span><strong id="viewerPostCount">3</strong> posts</span><span><strong>8.4K</strong> followers</span><span><strong>310</strong> following</span></div>
+      <button class="button primary full" id="viewerMessageBtn">Message</button>
+    </div>
+  </section>
+  <section class="modal-backdrop hidden" id="postViewer">
+    <div class="viewer-modal post-viewer">
+      <button class="close-modal" id="closePostViewer" aria-label="Close">×</button>
+      <img id="postViewerImage" class="post-viewer-image" src="assets/mishika-profile.jpeg" alt="Mishika post">
+      <div class="post-viewer-caption"><strong>Mishika</strong> <span>@Mishika__a</span><p>✨ Mishika Family</p></div>
+      <div class="post-viewer-controls"><button class="button secondary" id="prevPostBtn">‹ Previous</button><span id="postViewerIndex">1 / 3</span><button class="button secondary" id="nextPostBtn">Next ›</button></div>
+    </div>
+  </section>
+  <section class="modal-backdrop hidden" id="paidStoryModal">
+    <div class="upgrade-modal paid-story-modal">
+      <button class="close-modal" id="closePaidStory" aria-label="Close">×</button>
+      <div class="premium-icon">🔒</div>
+      <p class="eyebrow">MISHIKA FAMILY</p>
+      <h2>Paid users only</h2>
+      <p class="muted">This profile content is available to paid members.</p>
+      <button class="button primary full" id="paidStoryUpgrade">Upgrade to unlock</button>
+    </div>
+  </section>
+  <div class="toast hidden" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
