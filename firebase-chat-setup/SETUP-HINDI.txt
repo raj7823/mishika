@@ -23,3 +23,11 @@ PUBLIC PROFILE ONLINE STATUS + CHAT HISTORY
 - Admin panel visible hone par har 30 seconds heartbeat update hota hai. Website 90 seconds se purane heartbeat ko Offline dikhati hai. Browser/tab band hone par Offline update best-effort hai; network band hone par status maximum lagbhag 90 seconds tak purana reh sakta hai.
 - User chat history Firestore me conversations/{uid}/messages ke andar save hoti hai. Updated code Firebase Auth ki browser-local persistence enable karta hai, isliye same Chrome profile/site data clear na karne par purani conversation wapas load honi chahiye. Incognito, browser data clear, ya alag browser/device par alag guest identity ho sakti hai.
 - Agar pehle ke messages Firestore me save nahi hue the (sirf purane demo/localStorage me the), to woh automatically cloud history me nahi aa sakte.
+
+
+PAYMENT REQUEST PANEL FIX / TROUBLESHOOTING
+- Firebase Console > Firestore Database > Rules me isi ZIP ke firebase-chat-setup/firestore.rules ka poora content paste karke Publish karein. Sirf file upload karne se live rules update nahi hote.
+- Admin panel me wahi email use karein jo rules ke isAdmin() me hai: sonusharmax301@gmail.com. Agar aapka admin email alag hai, rules me email ko apne exact verified admin email se badal kar Publish karein.
+- Payment request submit karte waqt website ab error code dikhayegi agar Firestore ne request save karne se mana kiya. Admin panel bhi permission-denied jaise exact error dikhayega.
+- Request Firestore > Data > paymentRequests me save ho rahi hai par panel me nahi aa rahi, to admin account/email aur published rules check karein. Admin query ab client-side sorting karti hai, isliye createdAt/orderBy ke karan docs chhootne ki sambhavna kam hai.
+- Payment QR/UTR ko automatic payment verification na samjhein. Bank/UPI app me payment receive verify karke hi Approve karein.
