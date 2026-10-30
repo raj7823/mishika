@@ -53,3 +53,26 @@
 .post-viewer-controls span{font-size:11px;color:var(--muted);white-space:nowrap}
 .post-photo{cursor:pointer}
 @media(max-width:560px){.viewer-modal{border-radius:16px}.viewer-cover{height:155px}}
+
+/* Upgrade/payment modal: keep all plan and submit controls reachable on short screens */
+.modal-backdrop {
+  overflow-y: auto;
+  align-items: start;
+  justify-items: center;
+  padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+.upgrade-modal {
+  box-sizing: border-box;
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  margin: auto 0;
+  padding-bottom: 28px;
+}
+@supports not (height: 100dvh) {
+  .upgrade-modal { max-height: calc(100vh - 24px); }
+}
+#qrArea { scroll-margin-bottom: 24px; }
+#paidBtn { display: block; min-height: 46px; margin-bottom: 8px; }
