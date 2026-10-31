@@ -7,6 +7,22 @@
   <title>Mishika Family — Mishika</title>
   <link rel="stylesheet" href="style.css">
 <style> .profile-status-line{display:flex;align-items:center;gap:6px}.public-status-dot{width:8px;height:8px;border-radius:50%;background:#9ca3af;display:inline-block}.profile-status-line #publicOnlineStatus.is-online{color:#16a34a;font-weight:700}.profile-status-line #publicOnlineStatus.is-online~.public-status-dot{background:#22c55e}.profile-status-line #publicOnlineStatus.is-offline{color:#6b7280}.profile-status-line:has(#publicOnlineStatus.is-online) .public-status-dot{background:#22c55e}</style>
+
+<style>
+.story-row{flex-wrap:wrap;justify-content:flex-start;gap:12px}
+.premium-contact-card{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:5px;border-radius:18px;border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 25px rgba(90,50,160,.16);animation:premiumFloat 3s ease-in-out infinite;min-height:126px}
+.premium-contact-card:before{content:"";position:absolute;inset:-60%;z-index:-1;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.58) 48%,transparent 60%);transform:translateX(-60%) rotate(12deg);animation:premiumShine 4s linear infinite}
+.wa-premium{background:linear-gradient(135deg,#d9ffe9,#36c879 55%,#087b49);color:#063e27}
+.snap-premium{background:linear-gradient(135deg,#fff9a9,#ffe600 55%,#f6b900);color:#171717}
+.premium-emoji{font-size:30px;line-height:1;filter:drop-shadow(0 3px 4px rgba(0,0,0,.15))}
+.premium-contact-card small{font-weight:800;font-size:11px;text-align:center;line-height:1.2}
+.premium-price{font-size:16px;letter-spacing:.2px}
+.premium-contact-card .story-lock{top:7px;right:7px}
+@keyframes premiumFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes premiumShine{0%{transform:translateX(-70%) rotate(12deg)}55%,100%{transform:translateX(70%) rotate(12deg)}}
+@media(prefers-reduced-motion:reduce){.premium-contact-card,.premium-contact-card:before{animation:none}}
+</style>
+
 </head>
 <body>
   <main class="app-shell">
@@ -36,6 +52,8 @@
         <button class="story paid-story" type="button" data-paid-story="1"><img src="assets/mishika-profile.jpeg" alt=""><span class="story-lock">🔒</span><small>5 Private Photo’s</small><em class="story-views" id="storyViews1">Tap to view</em></button>
         <button class="story paid-story" type="button" data-paid-story="2"><img src="assets/mishika-post-2.jpeg" alt=""><span class="story-lock">🔒</span><small>10 Night Photo’s</small><em class="story-views" id="storyViews2">Tap to view</em></button>
         <button class="story paid-story" type="button" data-paid-story="3"><img src="assets/mishika-post-3.jpeg" alt=""><span class="story-lock">🔒</span><small>3 Hot Videos</small><em class="story-views" id="storyViews3">Tap to view</em></button>
+        <button class="story paid-story premium-contact-card wa-premium" type="button" data-paid-story="4"><span class="premium-emoji">💬</span><span class="story-lock">🔒</span><small>WhatsApp Number</small><strong class="premium-price">₹5,999</strong><em class="story-views">Premium Access</em></button>
+        <button class="story paid-story premium-contact-card snap-premium" type="button" data-paid-story="5"><span class="premium-emoji">👻</span><span class="story-lock">🔒</span><small>Snapchat ID</small><strong class="premium-price">₹1,999</strong><em class="story-views">Premium Access</em></button>
       </div>
       <div class="grid-label"><span>▦</span> POSTS <span class="post-live-dot" aria-label="Live"></span></div>
       <div class="post-grid" id="postGrid">
