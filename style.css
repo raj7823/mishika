@@ -209,3 +209,18 @@ body.dark-mode .secondary{border-color:#40354d}
 
 /* Date separators and message read receipts */
 .chat-date-divider{display:flex;justify-content:center;align-items:center;margin:18px 0 12px;width:100%;clear:both}.chat-date-divider span{font-size:12px;color:#686477;background:#f0edf5;border-radius:14px;padding:5px 12px;box-shadow:0 1px 2px #00000010}.message-content{display:flex;flex-direction:column;max-width:85%;min-width:0}.message-row.mine .message-content{align-items:flex-end;margin-left:auto}.message-meta{display:flex;gap:6px;justify-content:flex-end;font-size:10px;opacity:.72;margin:3px 5px 0}.message-seen{font-size:10px}
+
+
+/* WhatsApp and Snapchat: same round story size, logo only on the profile row. */
+.story-row{align-items:flex-start;gap:18px;flex-wrap:wrap}
+.social-logo-story{width:66px;min-width:66px;height:66px;min-height:66px;padding:0!important;position:relative;display:flex;align-items:center;justify-content:center;border:0!important;border-radius:50%!important;background:transparent!important;box-shadow:none!important;overflow:visible!important;animation:storyFloat 3s ease-in-out infinite}
+.social-logo-story:before{content:none!important;display:none!important}
+.social-logo-ring{width:66px;height:66px;display:grid;place-items:center;border-radius:50%;padding:3px;box-shadow:0 0 0 2px rgba(255,255,255,.95),0 0 0 4px currentColor,0 7px 22px rgba(0,0,0,.15);transition:transform .2s,box-shadow .2s}
+.social-logo-story:hover .social-logo-ring{transform:scale(1.06)}
+.wa-logo-ring{color:#18b95d;background:radial-gradient(circle at 30% 20%,#8dffb7,#13bf62 55%,#087c40)}
+.snap-logo-ring{color:#161616;background:#ffeb00;box-shadow:0 0 0 2px rgba(255,255,255,.95),0 0 0 4px #ffcf00,0 7px 22px rgba(0,0,0,.15)}
+.social-logo-svg{width:39px;height:39px;color:#fff;filter:drop-shadow(0 1px 1px rgba(0,0,0,.18))}
+.snap-logo-svg{width:37px;height:37px;color:#fff;stroke:#111;stroke-width:1.4;paint-order:stroke fill}
+.social-logo-story .story-lock{right:-3px;top:-3px;width:19px;height:19px;font-size:10px;z-index:2}
+.social-logo-story:focus-visible{outline:3px solid #ee4f9a;outline-offset:5px}
+@media(max-width:480px){.story-row{gap:15px}.social-logo-story,.social-logo-ring{width:61px;height:61px;min-width:61px;min-height:61px}.social-logo-svg{width:36px;height:36px}}

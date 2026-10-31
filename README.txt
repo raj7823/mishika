@@ -57,3 +57,6 @@ PAYMENT REQUESTS + 150 MESSAGE UPGRADE (MANUAL UPI)
 - Manual verification is not automatic bank verification. Firestore rules cannot reliably detect duplicate UTRs across all requests; check the UTR and amount before approving.
 ADMIN PROFILE STATUS
 After the admin signs in, the admin panel shows a green “Online now · Panel open” status in the profile card. This indicates the current signed-in browser session; it is not a server-side global presence monitor.
+
+
+LATEST UI UPDATE: WhatsApp and Snapchat are now round logo-only story buttons, matching the existing story circles. No label or price appears under either logo on the profile screen. Tapping a logo opens the existing details/payment modal with the plan name and price. WhatsApp/Snapchat details remain demo placeholders and must only be replaced with contact details you own or are authorized to share.
