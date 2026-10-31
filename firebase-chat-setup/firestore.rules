@@ -67,7 +67,16 @@ service cloud.firestore {
               && request.resource.data.sender == 'admin')
           );
 
-        allow update, delete: if isAdmin();
+        allow update: if isAdmin()
+          || (signedIn() && request.auth.uid == uid
+            && resource.data.sender == 'admin'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['seenByUser', 'seenByUserAt'])
+            && request.resource.data.seenByUser == true)
+          || (isAdmin()
+            && resource.data.sender == 'user'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['seenByAdmin', 'seenByAdminAt'])
+            && request.resource.data.seenByAdmin == true);
+        allow delete: if isAdmin();
       }
     }
 
