@@ -6,7 +6,8 @@ import { firebaseConfig } from './firebase-config.js';
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app), db = getFirestore(app);
 const $ = id => document.getElementById(id);
-const isAdminPage = !!$('incomingCalls');
+// Detect admin page using the host that exists before this module builds the incomingCalls element.
+const isAdminPage = !!$('adminAudioCallHost') || location.pathname.toLowerCase().endsWith('/admin.html');
 let uid = null, pc = null, localStream = null, activeCallId = null;
 let stopCallDoc = null, stopIncoming = null, stopRemoteCandidates = null;
 const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
