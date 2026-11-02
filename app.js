@@ -156,7 +156,7 @@ function showPaymentQR() {
   box.innerHTML = "";
 
   const img = document.createElement("img");
-  img.src = "/assets/payment-qr.png";
+  img.src = "assets/payment-qr.png";
   img.alt = "Payment QR Code";
 
   img.style.width = "100%";
