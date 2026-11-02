@@ -60,3 +60,10 @@ After the admin signs in, the admin panel shows a green “Online now · Panel o
 
 
 LATEST UI UPDATE: WhatsApp and Snapchat are now round logo-only story buttons, matching the existing story circles. No label or price appears under either logo on the profile screen. Tapping a logo opens the existing details/payment modal with the plan name and price. WhatsApp/Snapchat details remain demo placeholders and must only be replaced with contact details you own or are authorized to share.
+
+
+LIVE AUDIO CALLING
+- Added firebase-audio-call.js for WebRTC audio calls from website visitors to the logged-in admin.
+- Admin accepts/declines incoming calls in the new Live Audio Calls panel on admin.html.
+- Publish the updated firebase-chat-setup/firestore.rules and upload firebase-audio-call.js to the site root.
+- HTTPS and microphone permissions are required. Some networks need a TURN relay service; STUN-only calling may not connect on every network.

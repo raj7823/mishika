@@ -41,3 +41,12 @@ MOBILE CHAT + IMAGE/VOICE MESSAGE + DARK MODE (NEW)
 5. Chat header ke ☾ / ☀ button se dark/light mode change hota hai; preference isi browser me save hoti hai.
 6. Mobile par chat full-screen, composer safe-area aware, aur upgrade/payment modal scrollable hai.
 NOTE: Voice recording support browser/device par depend karta hai. Storage Rules publish kiye bina image/audio upload kaam nahi karega.
+
+
+LIVE AUDIO CALLING (NEW)
+1. index.html aur admin.html ke saath firebase-audio-call.js ko bhi website root par upload karein.
+2. firebase-chat-setup/firestore.rules ka updated poora content Firebase Console > Firestore Database > Rules mein paste karke Publish karein. Sirf ZIP upload karne se rules publish nahi hote.
+3. Public website HTTPS par kholein. Chat mein Audio Call dabayein aur microphone permission Allow karein.
+4. Admin ko https://YOUR-DOMAIN/admin.html par login rehna hoga. Incoming call card par Accept call dabayein; admin browser microphone permission bhi Allow karein.
+5. End call se call band karein. Test do alag devices/browsers par karein.
+6. Yeh WebRTC audio calling hai. Is build mein STUN server hai; kuch mobile networks/firewalls par TURN relay ki zaroorat pad sakti hai, jiske liye alag service/cost ho sakti hai. Browser mic permissions aur internet connection zaroori hain.

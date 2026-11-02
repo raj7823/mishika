@@ -80,6 +80,40 @@ service cloud.firestore {
       }
     }
 
+
+    // WebRTC audio-call signaling. Caller is the authenticated guest UID;
+    // only the configured admin can list/accept calls.
+    match /audioCalls/{callId} {
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'ringing'
+        && request.resource.data.offer.sdp is string;
+      allow get: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow list: if isAdmin();
+      allow update: if (isAdmin()
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['answer', 'status', 'answeredAt', 'endedAt']))
+        || (signedIn()
+          && resource.data.uid == request.auth.uid
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['status', 'endedAt'])
+          && request.resource.data.status in ['ended', 'rejected']);
+      allow delete: if isAdmin();
+      match /callerCandidates/{candidateId} {
+        allow read: if isAdmin() || (signedIn()
+          && get(/databases/$(database)/documents/audioCalls/$(callId)).data.uid == request.auth.uid);
+        allow create: if signedIn()
+          && get(/databases/$(database)/documents/audioCalls/$(callId)).data.uid == request.auth.uid;
+        allow update, delete: if false;
+      }
+      match /adminCandidates/{candidateId} {
+        allow read: if isAdmin() || (signedIn()
+          && get(/databases/$(database)/documents/audioCalls/$(callId)).data.uid == request.auth.uid);
+        allow create: if isAdmin();
+        allow update, delete: if false;
+      }
+    }
+
     match /paymentRequests/{requestId} {
       allow create: if signedIn()
         && request.resource.data.uid == request.auth.uid

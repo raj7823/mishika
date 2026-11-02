@@ -72,6 +72,11 @@
         <img class="chat-avatar-img" src="assets/mishika-profile.jpeg" alt="Mishika"><div class="chat-title"><strong>Mishika</strong><span>@Mishika__a</span></div>
         <button class="icon-button" id="themeToggle" aria-label="Toggle dark mode" title="Dark mode">☾</button><button class="icon-button" id="chatMenuBtn" aria-label="Info">⋯</button>
       </header>
+      <div id="audioCallPanel" class="audio-call-panel" aria-label="Audio calling">
+        <button id="startAudioCallBtn" class="audio-call-btn" type="button">📞 Audio Call</button>
+        <button id="userHangupBtn" class="audio-call-btn" type="button" disabled>End call</button>
+        <span id="audioCallStatus" class="audio-call-status" role="status">Audio call available</span>
+      </div>
       <div class="chat-body" id="chatBody">
         <div class="profile-mini">
           <img class="avatar-img small-avatar-img" src="assets/mishika-profile.jpeg" alt="Mishika"><strong>Mishika</strong><span>@Mishika__a · Mishika Family</span>
@@ -164,6 +169,7 @@
   <div class="toast hidden" id="toast"></div>
   <script src="app.js"></script>
   <script type="module" src="firebase-live-chat.js"></script>
+  <script type="module" src="firebase-audio-call.js"></script>
   <script type="module" src="paid-packs.js"></script>
 </body>
 </html>
