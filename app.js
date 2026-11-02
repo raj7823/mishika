@@ -156,7 +156,7 @@ function showPaymentQR() {
   box.innerHTML = "";
 
   const img = document.createElement("img");
-  img.src = "assets/payment-qr.png";
+  img.src = "/assets/payment-qr.png";
   img.alt = "Payment QR Code";
 
   img.style.width = "100%";
@@ -171,7 +171,7 @@ function showPaymentQR() {
 
     const error = document.createElement("p");
     error.textContent =
-      "QR image nahi mili. assets/payment-qr.png ka path aur filename check karein.";
+      "QR image nahi mili. Check karein: /assets/payment-qr.png";
 
     error.style.color = "#b91c1c";
     error.style.textAlign = "center";
@@ -195,7 +195,16 @@ $("messageInput")?.addEventListener("keydown", e => {
 });
 
 $("upgradeBtn")?.addEventListener("click", () => {
+  // Open the upgrade modal and show the existing payment QR immediately.
   $("upgradeModal")?.classList.remove("hidden");
+  $("qrArea")?.classList.remove("hidden");
+
+  const qrLabel = $("qrPaymentLabel");
+  if (qrLabel) {
+    qrLabel.textContent = `Scan the UPI QR and pay ₹${selectedChatPlan.amount}`;
+  }
+
+  showPaymentQR();
 });
 
 $("closeUpgrade")?.addEventListener("click", () => {
