@@ -155,27 +155,36 @@ function showPaymentQR() {
 
   box.innerHTML = "";
 
-  const img = document.createElement("img");
-  img.src = "assets/payment-qr.png";
-  img.alt = "Payment QR Code";
+  // Keep the QR area square and center the image inside it.
+  box.style.width = "220px";
+  box.style.height = "220px";
+  box.style.maxWidth = "100%";
+  box.style.margin = "0 auto";
+  box.style.display = "flex";
+  box.style.alignItems = "center";
+  box.style.justifyContent = "center";
+  box.style.overflow = "hidden";
+  box.style.boxSizing = "border-box";
 
+  const img = document.createElement("img");
+  img.src = "/assets/payment-qr.png";
+  img.alt = "Payment QR Code";
   img.style.width = "100%";
-  img.style.maxWidth = "260px";
-  img.style.height = "auto";
+  img.style.height = "100%";
+  img.style.maxWidth = "100%";
+  img.style.maxHeight = "100%";
   img.style.display = "block";
-  img.style.margin = "0 auto";
   img.style.objectFit = "contain";
+  img.style.margin = "0";
+  img.style.flex = "0 0 auto";
 
   img.onerror = function () {
     box.innerHTML = "";
-
     const error = document.createElement("p");
-    error.textContent =
-      "QR image nahi mili. Check karein: /assets/payment-qr.png";
-
+    error.textContent = "QR image nahi mili. Check karein: /assets/payment-qr.png";
     error.style.color = "#b91c1c";
     error.style.textAlign = "center";
-
+    error.style.fontSize = "13px";
     box.appendChild(error);
   };
 
