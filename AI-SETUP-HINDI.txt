@@ -1,0 +1,45 @@
+MISHIKA FAMILY - GEMINI AI AUTO REPLY (STARTER INTEGRATION)
+
+IMPORTANT
+- This ZIP includes the original site files plus a starter Vercel serverless API.
+- The AI reply is NOT live until you configure the Vercel environment variables below and deploy.
+- Do not put any secret/private key in HTML or browser JavaScript.
+
+WHAT WAS ADDED
+- api/ai-reply.js: verifies Firebase user ID tokens, loads recent messages from that user's own conversation, asks Gemini 2.5 Flash, and writes an AI message with sender='ai'.
+- firebase-live-chat.js: after a text message is successfully sent, calls /api/ai-reply using the signed-in user's Firebase ID token.
+- firebase-admin-inbox.js: shows AI messages as "Mishika AI" in the admin inbox.
+- package.json: installs firebase-admin for the Vercel function.
+
+VERCEL ENVIRONMENT VARIABLES (Project > Settings > Environment Variables)
+1. GEMINI_API_KEY = your Gemini API key
+2. AI_AUTO_REPLY_ENABLED = true
+3. FIREBASE_SERVICE_ACCOUNT_JSON = the full Firebase service-account JSON as one-line JSON
+
+HOW TO GET FIREBASE_SERVICE_ACCOUNT_JSON
+Firebase Console > Project settings > Service accounts > Generate new private key.
+Download the JSON. Copy the ENTIRE JSON file contents into the Vercel variable FIREBASE_SERVICE_ACCOUNT_JSON.
+Keep it private. Never upload it to this ZIP, GitHub, or the website public folder. If exposed, revoke/rotate it immediately.
+
+DEPLOY
+- Upload/replace the ZIP contents in the root of the same Vercel project (or commit/push if connected to GitHub).
+- Ensure api/ai-reply.js is at project-root/api/ai-reply.js.
+- Ensure package.json is at project root.
+- Redeploy after adding/changing environment variables.
+
+FIRESTORE RULES
+- The API uses Firebase Admin SDK, so it writes AI messages server-side and does not require allowing sender='ai' in public Firestore client rules.
+- Keep your existing Firestore rules; do not add a public rule that lets arbitrary users create AI messages.
+
+TEST
+1. Open the live site in a private/incognito window.
+2. Send a short text message.
+3. Wait a few seconds; an AI reply should appear in the same chat.
+4. Check Vercel > Deployments > Functions/Logs if no reply appears.
+
+CURRENT LIMITATIONS / NOTES
+- AI triggers on text messages only, not photo/audio uploads.
+- AI is enabled/disabled using AI_AUTO_REPLY_ENABLED in Vercel; changing it requires redeploy.
+- This starter version uses the latest 11 text messages for conversational context and prevents duplicate replies for the same message.
+- The AI does not see images/audio and should not be relied on for emergency, medical, legal, or financial decisions.
+- Test with a few accounts before broad launch; monitor Gemini usage and set API quotas/budget alerts in Google AI Studio/Google Cloud.
