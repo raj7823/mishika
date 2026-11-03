@@ -7,8 +7,16 @@ function getAdminApp() {
   const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
   if (!raw) throw new Error('Missing FIREBASE_SERVICE_ACCOUNT_JSON');
   let serviceAccount;
-  try { serviceAccount = JSON.parse(raw); }
-  catch { throw new Error('FIREBASE_SERVICE_ACCOUNT_JSON must be valid JSON'); }
+  try {
+    serviceAccount = JSON.parse(raw.trim().replace(/^['"]|['"]$/g, ''));
+  } catch {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT_JSON must be valid JSON. Paste the complete service-account JSON.');
+  }
+  if (!serviceAccount.private_key || !serviceAccount.client_email || !serviceAccount.project_id) {
+    throw new Error('Firebase service account JSON is missing private_key, client_email, or project_id');
+  }
+  // Convert escaped newline characters from the Vercel environment variable into PEM newlines.
+  serviceAccount.private_key = String(serviceAccount.private_key).replace(/\\n/g, '\n').trim();
   return initializeApp({ credential: cert(serviceAccount) });
 }
 
