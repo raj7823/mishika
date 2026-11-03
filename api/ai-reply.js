@@ -15,8 +15,11 @@ function getAdminApp() {
   if (!serviceAccount.private_key || !serviceAccount.client_email || !serviceAccount.project_id) {
     throw new Error('Firebase service account JSON is missing private_key, client_email, or project_id');
   }
-  // Convert escaped newline characters from the Vercel environment variable into PEM newlines.
-  serviceAccount.private_key = String(serviceAccount.private_key).replace(/\\n/g, '\n').trim();
+  if (serviceAccount.project_id !== 'mishika-family') {
+    throw new Error('Firebase service account project_id does not match mishika-family');
+  }
+  // Normalize PEM newlines from JSON/Vercel environment variable.
+  serviceAccount.private_key = String(serviceAccount.private_key).replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n').replace(/\r\n/g, '\n').trim();
   return initializeApp({ credential: cert(serviceAccount) });
 }
 
@@ -25,6 +28,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (process.env.AI_AUTO_REPLY_ENABLED !== 'true') return res.status(200).json({ skipped: true, reason: 'AI auto reply is disabled' });
   if (!process.env.GEMINI_API_KEY) return res.status(500).json({ error: 'Missing GEMINI_API_KEY' });
+  let lockRef = null;
   try {
     const authHeader = req.headers.authorization || '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
@@ -42,7 +46,7 @@ module.exports = async function handler(req, res) {
     const userText = String(messageSnap.data().text || '').trim();
     if (!userText || userText.length > 1000) return res.status(400).json({ error: 'Message is empty or too long' });
 
-    const lockRef = conversationRef.collection('aiReplyLocks').doc(messageId);
+    lockRef = conversationRef.collection('aiReplyLocks').doc(messageId);
     try {
       await lockRef.create({ createdAt: FieldValue.serverTimestamp(), status: 'processing' });
     } catch (e) {
@@ -90,6 +94,10 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ok: true });
   } catch (error) {
     console.error('AI reply error:', error);
+    if (lockRef) {
+      try { await lockRef.set({ status: 'failed', error: String(error.message || 'AI reply failed').slice(0, 300), failedAt: FieldValue.serverTimestamp() }, { merge: true }); }
+      catch (lockError) { console.error('AI lock update failed:', lockError); }
+    }
     return res.status(500).json({ error: error.message || 'AI reply failed' });
   }
 };
